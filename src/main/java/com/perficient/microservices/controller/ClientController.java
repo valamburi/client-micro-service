@@ -1,10 +1,14 @@
 package com.perficient.microservices.controller;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -16,6 +20,8 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(value = "/client")
 public class ClientController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
 	@Autowired
 	private ClientService clientService;
@@ -30,7 +36,6 @@ public class ClientController {
 		return client;
 	}
 
-	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/createUpdateClient", produces = "application/json")
 
 	@HystrixCommand(fallbackMethod = "defaultCreateClient")
@@ -42,7 +47,6 @@ public class ClientController {
 		return clientDetails;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/searchClient", produces = "application/json")
 	@HystrixCommand(fallbackMethod = "defaultSearchClient")
 	@ApiOperation(value = "Search Client", notes = "Search Client")
@@ -50,5 +54,14 @@ public class ClientController {
 		System.out.println("Inside SearchClient Controller");
 		Client clientDetails = clientService.searchClient(client);
 		return clientDetails;
+	}
+	
+	@RequestMapping(path = "/list", produces = "application/json", method = RequestMethod.GET)
+	@ApiOperation(value = "List all Clients", notes = "List Clients registered to this portal")
+	public List<Client> listAllClients() {
+
+		logger.info("::listAllClients::");
+		List<Client> clients = clientService.listAllClients();
+		return clients;
 	}
 }

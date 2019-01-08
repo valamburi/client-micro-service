@@ -1,5 +1,7 @@
 package com.perficient.microservices.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +13,32 @@ import com.perficient.microservices.model.Client;
 
 @Service("clientService")
 public class ClientServiceImpl implements ClientService {
-	
-    private static final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
-    
-    @Autowired
-    private ClientDAO clientDAO;
 
-    @Override
-    @PostMapping("/client/createUpdateClient")
-    public Client createClient(Client client) {
-        //logger.debug("createClient called");
-        System.out.println("called client");
-        return clientDAO.createClient(client);
-    }
-    
+	private static final Logger logger = LoggerFactory.getLogger(ClientServiceImpl.class);
 
-    @Override
-    @PostMapping("/client/searchClient")
-    public Client searchClient(Client client) {
-        //logger.debug("createClient called");
-        System.out.println("called client");
-        return clientDAO.searchClient(client);
-    }
+	@Autowired
+	private ClientDAO clientDAO;
+
+	@Override
+	@PostMapping("/client/createUpdateClient")
+	public Client createClient(Client client) {
+		// logger.debug("createClient called");
+		System.out.println("called client");
+		return clientDAO.createClient(client);
+	}
+
+	@Override
+	@PostMapping("/client/searchClient")
+	public Client searchClient(Client client) {
+		// logger.debug("createClient called");
+		System.out.println("called client");
+		return clientDAO.searchClient(client);
+	}
+
+	@Override
+	public List<Client> listAllClients() {
+		logger.debug("::listAllClients::");
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

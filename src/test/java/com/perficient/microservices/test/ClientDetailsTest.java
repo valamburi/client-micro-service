@@ -1,5 +1,6 @@
 package com.perficient.microservices.test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import com.perficient.microservices.model.Client;
 import com.perficient.microservices.model.Client.ClientAction;
 import com.perficient.microservices.model.Product;
 import com.perficient.microservices.service.ClientService;
-
-import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
