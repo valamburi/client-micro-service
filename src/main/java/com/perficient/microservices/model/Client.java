@@ -20,6 +20,15 @@ public class Client {
 	private Address address;
 	private Product product;
 	// private String status;
+	private Error error;
+	
+	public Error getError() {
+		return error;
+	}
+
+	public void setError(Error err) {
+		this.error = err;
+	}
 
 	// Defines the enumeration of acceptable values for the Client - Action
 	// field

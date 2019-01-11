@@ -41,7 +41,6 @@ public class ClientDetailsTest {
         
         Product mockProduct = new Product();
         mockProduct.setName("Internet");
-        mockProduct.setProductId("1001");
         sample.setProduct(mockProduct);
         
         Address address= new Address();

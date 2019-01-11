@@ -5,6 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.perficient.microservices.model.Client;
+import com.perficient.microservices.model.Product;
 import com.perficient.microservices.service.ClientService;
 
 import io.swagger.annotations.ApiOperation;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/client")
 public class ClientController {
@@ -56,6 +61,15 @@ public class ClientController {
 		return clientDetails;
 	}
 	
+	@GetMapping(value = "/searchClient/{client}", produces = "application/json")
+	@HystrixCommand(fallbackMethod = "defaultSearchClient")
+	@ApiOperation(value = "Search Client", notes = "Search Client")
+	public Client searchClient(@PathVariable(value="client") String client) {
+		System.out.println("Inside SearchClient Controller "+client);
+		Client clientDetails = clientService.searchClient(client);
+		return clientDetails;
+	}
+	
 	@RequestMapping(path = "/list", produces = "application/json", method = RequestMethod.GET)
 	@ApiOperation(value = "List all Clients", notes = "List Clients registered to this portal")
 	public List<Client> listAllClients() {
@@ -64,4 +78,16 @@ public class ClientController {
 		List<Client> clients = clientService.listAllClients();
 		return clients;
 	}
+	
+	@RequestMapping(path = "/update/product/{clientCompanyName}", produces = "application/json", method = RequestMethod.POST)
+	@ApiOperation(value = "Update Client data with Product", notes = "Embed Product information within Client record")
+	public Client updateClientProduct(@PathVariable(value = "clientCompanyName") String clientCompanyName,
+			@RequestBody() Product p) {
+		
+		logger.info("::updateClientProduct::");
+		Client c = clientService.updateClientWithProduct(clientCompanyName, p);
+		logger.info("Returned from Update Client Product: {}", c);
+		return c;
+	}
+	
 }

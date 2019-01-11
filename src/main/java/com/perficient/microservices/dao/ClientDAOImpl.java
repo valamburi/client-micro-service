@@ -1,5 +1,7 @@
 package com.perficient.microservices.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -61,4 +63,23 @@ public class ClientDAOImpl implements ClientDAO {
 		System.out.println("retrievedClient" + retrievedClient);
 		return retrievedClient;
 	}
+
+	@Override
+	public List<Client> listClients() {
+		
+		List<Client> clients = mongoOperation.findAll(Client.class);
+		
+		return clients;
+	}
+
+	@Override
+	public Client searchClient(String client) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("company").is(client));
+
+		Client retrievedClient = mongoOperation.findOne(query, Client.class);
+		System.out.println("retrievedClient: " + retrievedClient);
+		return retrievedClient;
+	}
+
 }

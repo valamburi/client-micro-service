@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.perficient.microservices.model.Client;
+import com.perficient.microservices.model.Product;
 
 public interface ClientService {
 	@PostMapping("/client/createUpdateClient")
@@ -14,4 +15,8 @@ public interface ClientService {
     Client searchClient(Client client);
 	
 	List<Client> listAllClients();
+	
+	Client updateClientWithProduct(String clientCompanyName, Product p);
+
+	Client searchClient(String client);
 }

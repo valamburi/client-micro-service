@@ -1,5 +1,7 @@
 package com.perficient.microservices.dao;
 
+import java.util.List;
+
 import com.perficient.microservices.model.Client;
 
 public interface ClientDAO {
@@ -9,5 +11,9 @@ public interface ClientDAO {
 	Client createClient(Client client);
 
 	Client searchClient(Client client);
+	
+	List<Client> listClients();
+
+	Client searchClient(String client);
 
 }
